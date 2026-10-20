@@ -19,29 +19,37 @@ Jogo Asteróides utilizando pygame com suporte:
 
 ## Prerequisitos
 
+Python 3.15.0 no build livre de GIL (`python3.15t`). O build padrão do Python 3.15 ainda tem o GIL.
+
+O jogo usa [pygame-ce](https://github.com/pygame-community/pygame-ce) 2.5.8. Esse pacote instala o módulo `pygame` e é a versão que compila no Python 3.15 sem GIL. Não há wheel pronta para o build livre de GIL, então o `pip` compila a partir do código-fonte e precisa das bibliotecas SDL 2 abaixo.
+
+O pygame-ce 2.5.8 ainda não declara suporte a execução sem GIL. Sem `-Xgil=0`, importar `pygame` liga o GIL de novo. Os scripts `run_mac.sh`, `run_linux.sh` e o alvo `make run` já passam essa opção.
+
 Mac
 
 ```shell
-brew install sdl sdl_image sdl_mixer sdl_ttf
+brew install python-freethreading sdl2 sdl2_image sdl2_mixer sdl2_ttf portmidi
 ```
+
+Linux
+
+```shell
+sudo apt install pkg-config libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev libportmidi-dev
+```
+
+No Linux, instale o interpretador livre de GIL para que o comando `python3.15t` exista. O guia oficial está em <https://docs.python.org/3/howto/free-threading-python.html>.
 
 ## Como instalar?
 
-### Mac
-
 ```shell
-brew install python3
-curl -L bootstrap.pypa.io/get-pip.py | python3
-pip3 install hg+http://bitbucket.org/pygame/pygame
+python3.15t -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -VV
+python -c "import sys; print(sys._is_gil_enabled())"
 ```
 
-### Linux
-
-```shell
-sudo apt install python3 curl
-curl -L bootstrap.pypa.io/get-pip.py | python3
-pip3 install hg+http://bitbucket.org/pygame/pygame
-```
+`python -VV` deve conter `free-threading build`. Antes de importar o pygame, `sys._is_gil_enabled()` deve imprimir `False`.
 
 
 1) Para **Windows 7 e 8** instale:	
@@ -62,7 +70,7 @@ OBS: **Windows 7 requer o Service Pack 1**.
 ou se possuir o python e o pygame instalados, execute:
 
 ```shell
-python3 src/main.py config.txt
+python3.15t -Xgil=0 src/main.py config.txt
 ```
 
 Video com passo a passo da instalação

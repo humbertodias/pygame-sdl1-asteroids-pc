@@ -1,2 +1,2 @@
 #!/bin/sh
-python3 src/main.py config.txt
+exec python3.15t -Xgil=0 src/main.py config.txt
