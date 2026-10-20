@@ -5,3 +5,5 @@
 .venv/
 score_py3.dat
 main.dist
+main.build
+nuitka-crash-report.xml

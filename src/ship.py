@@ -6,7 +6,6 @@ import pygame as pg
 from color import *
 from sprite_collision import *
 from bullet import *
-from resource import *
 
 class Ship(SpriteCollision,pg.sprite.Sprite):
 

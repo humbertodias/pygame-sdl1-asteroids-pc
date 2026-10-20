@@ -6,7 +6,6 @@ import random, collections, sys
 import credit
 from font import *
 from color import *
-from resource import *
 from virtual_controller import *
 
 class MenuItem(pg.font.Font):

@@ -4,7 +4,6 @@ import random, sys
 import pygame as pg
 
 from font import *
-from resource import *
 
 from asteroid import *
 from ship import *

@@ -21,7 +21,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             pkg-config \
-            clang \
             libsdl2-dev \
             libsdl2-image-dev \
             libsdl2-mixer-dev \
@@ -29,21 +28,5 @@ jobs:
             libfreetype6-dev \
             libportmidi-dev
 
-      - name: Get Information Variables
-        id: core
-        run: |
-          echo "platform=$(uname -m)" >> $GITHUB_OUTPUT
-          echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
-
       - name: Run build
-        run: |
-          make dep exe
-          mkdir -p ${{ github.workspace }}/artifact
-          mv main.dist ${{ github.workspace }}/artifact/asteroids-linux-${{ steps.core.outputs.platform }}-${{ steps.core.outputs.sha8 }}
-          
-      - name: Upload artifacts
-        if: ${{ success() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: asteroids-linux-${{ steps.core.outputs.platform }}-${{ steps.core.outputs.sha8 }}
-          path: ${{ github.workspace }}/artifact/**/*
+        run: make dep check
